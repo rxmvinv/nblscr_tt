@@ -114,6 +114,7 @@ export default {
   cursor: pointer;
   background: none;
   border: 1px solid #484848;
+  user-select: none;
 }
 .tab-button:hover {
   background: none;
