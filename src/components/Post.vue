@@ -34,6 +34,7 @@
     </div>
     <div v-if="postMedia" class="media-section" v-on:click="showVideo({url: postMedia.url, title: postTitle})">
       <img :src="`../${postMedia.preview}`" v-bind:alt="img" />
+      <div class="play-icon"></div>
     </div>
   </div>
 </template>
@@ -69,6 +70,7 @@ export default {
   height: 156px;
   border-radius: 4px;
   display: flex;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 .post-content-section {
@@ -121,9 +123,29 @@ export default {
   display: flex;
   flex-basis: 20%;
   cursor: pointer;
+  position: relative;
 }
 .media-section img {
   width: 100%;
+}
+.media-section .play-icon {
+  background: url('../assets/icon-youtube.png');
+  background-size: contain;
+  display: block;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.media-section:hover .play-icon {
+  background: url('../assets/icon-youtube-active.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .custom-tooltip {
   width: 102px;

@@ -62,7 +62,7 @@ export default {
           text: `EDA tools have come a long way since the advent of personal computing. 
           Now advanced routing features like auto-routers, 
           interactive routing, length tuning, and...`,
-          media: {url: 'https://www.youtube.com/watch?v=3Hdtg_oVzAo', preview: 'assets/video-preview.png'},
+          media: {url: '/someurl', preview: 'assets/video-preview.png'},
           active: false,
           testResults: [
             {
@@ -244,8 +244,8 @@ main.main-container {
   justify-content: center;
 }
 .video-modal .dialog {
-  width: 50%;
-  height: 50%;
+  width: 751px;
+  height: 424px;
   margin: auto;
 }
 .video-modal .dialog video {
@@ -260,6 +260,7 @@ main.main-container {
   align-items: center;
   color: #fff;
   font-size: 12px;
+  height: 32px;
 }
 .video-modal .dialog .video-header button {
   background: url("./assets/icon-cross.png");
