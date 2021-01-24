@@ -1,5 +1,5 @@
 <template>
-  <nav class="side-bar col-lg-2 d-md-block sidebar collapse">
+  <nav class=" sidebar ">
     <div 
       class="sidebar-sticky"
     >
@@ -89,6 +89,9 @@ export default {
   border-right: 1px solid #181818;
   position: relative;
   height: 100vh;
+  max-width: 236px;
+  width: 100%;
+  padding-left: 20px;
 }
 .sidebar-sticky {
   left: 0%;
@@ -102,10 +105,11 @@ export default {
 
   text-align: left;
   top: 0;
-  height: calc(100vh - 48px);
+  height: 100vh;
   padding-top: .5rem;
   overflow-x: hidden;
   overflow-y: auto;
+  max-height: 831px;
 }
 .menu-item {
   width: 200px;
@@ -133,6 +137,7 @@ export default {
   text-decoration: none;
   font-size: 11px;
   float: right;
+  margin-right: 19.5px;
 }
 .updates-counter:hover {
   text-decoration: none;
@@ -144,7 +149,7 @@ button.menu-item {
   justify-content: center;
   cursor: pointer;
   position: absolute;
-  bottom: 0;
+  bottom: 32px;
 }
 .divider-line {
   border-top: 1px solid #181818;

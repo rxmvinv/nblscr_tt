@@ -1,40 +1,45 @@
 <template>
-  <div class="one-post"
-    v-bind:class="{ active: isActive }"
-  >
+  <div class="post-wrapper">
     <div v-if="isActive" class="custom-tooltip">
       You are here 
       <span class="tooltipt-right-icon"></span>
     </div>
-    <div class="post-content-section" v-bind:class="{full: !postMedia}">
-      <div class="post-top-section">
-        <div class="post-title">
-          {{postTitle}}
+    <div class="custom-centered one-post"
+      v-bind:class="{ active: isActive }"
+    >
+      <div class="post-content-section" 
+        v-bind:class="{full: !postMedia}"
+        v-on:click="selectPost(index, isActive)"
+        >
+        <div class="post-top-section">
+          <div class="post-title">
+            {{postTitle}}
+          </div>
+          <div class="post-text">
+            {{postText}}
+          </div>
         </div>
-        <div class="post-text">
-          {{postText}}
-        </div>
-      </div>
-      <div class="post-bottom-section">
-        <div class="tests-list">
-          <div 
-            class="test" 
-            v-for="(test, index) in postTestResults" 
-            v-bind="test"
-            v-bind:key="test.label"
-            v-bind:class="{first: index === 0}"
-            v-on:click="onSwitchAction(index)"
-          >
-            <span>
-              {{test.label}} {{test.result}}
-            </span>
+        <div class="post-bottom-section">
+          <div class="tests-list">
+            <div 
+              class="test" 
+              v-for="(test, index) in postTestResults" 
+              v-bind="test"
+              v-bind:key="test.label"
+              v-bind:class="{first: index === 0}"
+              v-on:click="onSwitchAction(index)"
+            >
+              <span>
+                {{test.label}} {{test.result}}
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-if="postMedia" class="media-section" v-on:click="showVideo({url: postMedia.url, title: postTitle})">
-      <img :src="`../${postMedia.preview}`" v-bind:alt="img" />
-      <div class="play-icon"></div>
+      <div v-if="postMedia" class="media-section" v-on:click="showVideo({url: postMedia.url, title: postTitle})">
+        <img :src="`../${postMedia.preview}`" v-bind:alt="img" />
+        <div class="play-icon"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,8 +52,10 @@ export default {
     text: String,
     media: Object,
     active: Boolean,
+    index: Number,
     testResults: Array,
-    showVideo: Function
+    showVideo: Function,
+    selectPost: Function
   },
   data () {
     return {
@@ -64,6 +71,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.post-wrapper {
+  display: inline-flex;
+}
 .one-post {
   color: #fff;
   background-color: #282828;
@@ -73,11 +83,18 @@ export default {
   justify-content: space-between;
   margin-bottom: 16px;
 }
+.one-post.active {
+  margin-right: 110px;
+}
+.post-wrapper.last {
+  margin-bottom: 236px;
+}
 .post-content-section {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   flex-basis: 80%;
+  cursor: pointer;
 }
 .post-content-section.full {
   flex-basis: 100%;
@@ -152,8 +169,10 @@ export default {
   height: 32px;
   border: 1px solid #484848;
   border-radius: 26px;
+  font-size: 11px;
+  color: #fff;
   opacity: 1;
-  margin-left: -110px;
+  margin-right: 8px;
   margin-top: 8px;
   font-size: 11px;
   display: flex;

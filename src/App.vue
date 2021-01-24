@@ -1,26 +1,39 @@
 <template>
-  <div class="container-fluid app-container">
-    <div class="row">
+  <div class="app-container">
+    <div class="content-row">
       <SideBar v-bind:counter="newsCounter" />
-      <main role="main" class="main-container ml-sm-auto col-lg-10 d-flex justify-content-center">
-        <!-- <div class="row"> -->
+      <main role="main" class="main-container">
           <Header />
-        <!-- </div>
-        <div class="row"> -->
-          <div class="custom-centered">
-          <div v-on:scroll="handleScroll" class="post-container">
-            <Tabs v-bind:header="tabsHeader" v-bind:isFixed="fixedPanel" />
-            <div 
-              class="post-list">
-              <Post
-                v-for="(post, index) in posts" 
-                v-bind="post"
-                v-bind:key="post.title"
+          <div class="content-container">
+              <SelectedPost 
+                v-if="currentPost.title"
+                v-bind:selectPost="selectPost"
+                v-bind:postData="currentPost"
                 v-bind:index="index"
-                v-bind:showVideo="showVideo"
-                v-on:click="selectPost(index, post.active)" />
+               />
+            <div 
+              v-on:scroll="handleScroll" 
+              class="post-container"
+              v-else
+              >
+              <Tabs 
+                v-bind:header="tabsHeader" 
+                v-bind:isFixed="fixedPanel" 
+                />
+              <div 
+                class="post-list"
+                v-bind:class="{'post-list-fixed': fixedPanel}"
+                >
+                <Post
+                  v-for="(post, index) in posts" 
+                  v-bind="post"
+                  v-bind:key="post.title"
+                  v-bind:class="{last: index === (posts.length - 1)}"
+                  v-bind:index="index"
+                  v-bind:showVideo="showVideo"
+                  v-bind:selectPost="selectPost" />
+              </div>
             </div>
-          </div>
           </div>
         <!-- </div> -->
         <div v-if="playingVideo" class="video-modal">
@@ -30,6 +43,7 @@
               <button v-on:click="showVideo({})">x</button>
             </div>
             <video controls autoplay :src="playingVideo.url" />
+            <div class="play-button"></div>
           </div>
         </div>
       </main>
@@ -42,6 +56,7 @@ import SideBar from './components/SideBar.vue'
 import Header from './components/Header.vue'
 import Tabs from './components/Tabs.vue'
 import Post from './components/Post.vue'
+import SelectedPost from './components/SelectedPost.vue'
 
 export default {
   name: 'App',
@@ -49,7 +64,8 @@ export default {
     SideBar,
     Header,
     Tabs,
-    Post
+    Post,
+    SelectedPost
   },
   created() {
     window.addEventListener('scroll', this.handleScroll);
@@ -165,7 +181,8 @@ export default {
       fixedPanel: false,
       newsCounter: 5,
       playingVideo: null,
-      tabsHeader: "Latest Updates"
+      tabsHeader: "Latest Updates",
+      currentPost: {}
     }
   },
   methods: {
@@ -174,17 +191,7 @@ export default {
     },
     selectPost(ind, act) {
       console.log(ind, act);
-      //TODO: 4. tooltip functionality if active index < length increase counter
-      
-      // let allPosts = this.posts.length - 1;
-      // if (!act) { 
-      //   allPosts - (ind + 1)
-      //   this.newsCounter = ;
-      // }
-
-      // TODO: 5. opened post: (route), active switch, dropdown, content:(text, image), comment, like, dislike, scrolling*
-      // * back-dropdown-comment-like-dislike panel remaining
-      //(6. comment/like/dislike form, warns popups)
+      this.currentPost = (ind >= 0) && this.posts[ind];
     },
     checkUpdates() {
 
@@ -208,20 +215,61 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  background: #353535;
+}
+.content-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 .app-container {
   background: #232323;
+  max-width: 1308px;
+  max-height: 833px;
+  height: 100vh;
+  margin-right: 8px;
+  overflow: hidden;
+
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-left: auto;
 }
 main.main-container {
   padding: 0;
   flex-direction: column;
   align-self: flex-start;
+  margin-left: 0;
+  justify-content: center;
+  display: flex;
+  max-width: 81.6%;
+  position: relative;
+  width: 100%;
+}
+.content-container {
+  height: 100%;
+  max-height: 831px;
+  overflow-y: hidden;
+  margin-right: -20px;
 }
 .post-container {
   overflow-y: scroll;
   height: calc(100vh - 76px);
   margin-top: 76px;
-  
+  height: 100vh;
+}
+.post-list {
+  width: 100%;
+  max-width: 1040px;
+  margin: auto;
+}
+.post-list-fixed {
+  margin-top: 156px;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -232,7 +280,6 @@ main.main-container {
   margin: auto;
   justify-content: space-between;
   width: 100%;
-  /* padding: 0 11.5%; */
 }
 .video-modal {
   position: absolute;
@@ -242,11 +289,13 @@ main.main-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 }
 .video-modal .dialog {
   width: 751px;
   height: 424px;
   margin: auto;
+  position: relative;
 }
 .video-modal .dialog video {
   width: 100%;
@@ -257,6 +306,7 @@ main.main-container {
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
+  padding-left: 16px;
   align-items: center;
   color: #fff;
   font-size: 12px;
@@ -270,5 +320,25 @@ main.main-container {
   display: inline-block;
   border: none;
   color: transparent;
+}
+.video-modal .dialog .play-button {
+  background: url('./assets/icon-youtube.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 64px;
+  height: 45px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+@media screen and (min-width: 1680) {
+  .app-container {
+    margin-left: 364px;
+    max-width: 90%;
+  }
 }
 </style>

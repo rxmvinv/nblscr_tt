@@ -5,7 +5,7 @@
       <div class="title">INSTALLED VERSION</div>
       <ul class="version-details">
         <li class="version-date">
-          <span class="installed-version-icon"></span> <!--:style="{backgroundImage: `url(${installedVersion.mediaUrl})`}"-->
+          <span class="installed-version-icon"></span>
           {{installedVersion.version}} ({{installedVersion.date}})
         </li>
         <li class="version-status">{{installedVersion.status}}</li>
@@ -16,7 +16,7 @@
       <div class="latest-version-details">
         <div class="title">LATEST VERSION</div>
         <div class="version-date">
-          <span class="latest-version-icon"></span> <!--:style="{backgroundImage: `url(${latestVersion.mediaUrl})`}" -->
+          <span class="latest-version-icon"></span>
           {{latestVersion.version}} ({{latestVersion.date}})
         </div>
       </div>
@@ -41,13 +41,11 @@ export default {
         date: "Aug 2020",
         status: "Outdated",
         missingFeatures: 186,
-        // mediaUrl: 'assets/current-version-icon.png'
       },
       latestVersion: {
         version: 20.4,
         date: "Oct 2020",
         sourceUrl: '',
-        // mediaUrl: '../assets/latest-version-icon.png'
       }
     }
   },
@@ -146,8 +144,8 @@ export default {
 .download-button {
   color: #fff;
   background-color: #3A75AD;
-  border: none;
   border-radius: 4px;
   padding: 8px 16px;
+  border: 1px solid #181818;
 }
 </style>

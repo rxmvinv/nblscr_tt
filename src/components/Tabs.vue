@@ -1,7 +1,9 @@
 <template>
-  <div class="tabs">
-      <div class="tabs-header" v-bind:class="{'tabs-header-fixed': isFixed}">{{tabsHeader}}</div>
-      <div class="tabs-list" v-bind:class="{'tabs-list-fixed': isFixed}">
+  <div class="tabs custom-centered"
+    v-bind:class="{'tabs-fixed': isFixed}"
+  >
+      <div class="tabs-header">{{tabsHeader}}</div>
+      <div class="tabs-list">
         <div 
           class="tab-container"
           v-for="(tab, index) in tabsList" 
@@ -92,10 +94,6 @@ export default {
   margin-top: 32px;
   margin-bottom: 16px;
 }
-.tabs-header-fixed {
-  margin-top: 74px;
-  margin-bottom: 58px;
-}
 .tabs-list {
   display: flex;
   flex-direction: row;
@@ -140,11 +138,28 @@ export default {
   margin-left: 8px;
   margin-right: 8px;
 }
-.tabs-list-fixed {
+.tabs-fixed {
+  position: absolute;
   width: 100%;
-  position: fixed;
+  max-width: 1040px;
+  right: -14px;
+  left: 0px;
+  background: #232323;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+}
+.tabs-fixed .tabs-header {
+  margin-top: 74px;
+  margin-bottom: 58px;
+  display: none;
+}
+.tabs-fixed .tabs-list {
+  width: 100%;
+  max-width: 820px;
   background: #232323;
   margin: 0;
   padding: 24px 0;
+  z-index: 1;
 }
 </style>
